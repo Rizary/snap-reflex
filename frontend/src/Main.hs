@@ -6,8 +6,8 @@ module Main where
 import Reflex
 import Reflex.Dom
 import qualified Data.Map as Map
-import safe     (readMay)
-import Data.Text (pack, unpack, Text)
+import Safe      ( readMay )
+import Data.Text ( pack, unpack, Text )
 import Control.Applicative ((<*>),(<$>))
 
 main = mainWidget $ el "div" $ do
@@ -17,7 +17,7 @@ main = mainWidget $ el "div" $ do
   let values = zipDynWith (,) nx ny
       result = zipDynWith (\o (x,y) -> textToOp o <$> x <*> y) (_dropdown_value d) values
       resultText = fmap (pack . show) result
-  test " = "
+  text " = "
   dynText resultText
 
 numberInput :: (MonadWidget t m) => m (Dynamic t (Maybe Double))
@@ -31,7 +31,7 @@ numberInput = do
           attrs  = fmap (maybe errorState (const validState)) result
   return result
 
-ops = Map.fromList [("+". "+"), ("-", "-"), ("*", "*"), ("/", "/")]
+ops = Map.fromList [("+", "+"), ("-", "-"), ("*", "*"), ("/", "/")]
 
 textToOp :: (Fractional a) => Text -> a -> a -> a
 textToOp s = case s of
