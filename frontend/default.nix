@@ -1,10 +1,10 @@
-{ mkDerivation, base, reflex, reflex-dom, stdenv }:
+{ mkDerivation, base, stdenv }:
 mkDerivation {
   pname = "frontend";
   version = "0.0.0.1";
   src = ./.;
   isLibrary = false;
   isExecutable = true;
-  executableHaskellDepends = [ base reflex reflex-dom ];
+  executableHaskellDepends = [ base ];
   license = stdenv.lib.licenses.mpl20;
 }
