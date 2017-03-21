@@ -1,14 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecursiveDo #-}
-
-module Main where
+{-# LANGUAGE RecursiveDo       #-}
 
 import Reflex
 import Reflex.Dom
 import qualified Data.Map as Map
-import Safe      ( readMay )
-import Data.Text ( pack, unpack, Text )
-import Control.Applicative ((<*>),(<$>))
+import Safe      (readMay)
+import Data.Text (pack, unpack, Text)
+import Control.Applicative ((<*>), (<$>))
 
 main = mainWidget $ el "div" $ do
   nx <- numberInput
@@ -26,7 +24,7 @@ numberInput = do
       validState = "style" =: "border-color: green"
   rec n <- textInput $ def & textInputConfig_inputType .~ "number"
                            & textInputConfig_initialValue .~ "0"
-			   & textInputConfig_attributes .~ attrs
+                           & textInputConfig_attributes .~ attrs
       let result = fmap (readMay . unpack) $ _textInput_value n
           attrs  = fmap (maybe errorState (const validState)) result
   return result
@@ -36,6 +34,6 @@ ops = Map.fromList [("+", "+"), ("-", "-"), ("*", "*"), ("/", "/")]
 textToOp :: (Fractional a) => Text -> a -> a -> a
 textToOp s = case s of
                     "-" -> (-)
-		    "*" -> (*)
-		    "/" -> (/)
-		    _   -> (+)
+                    "*" -> (*)
+                    "/" -> (/)
+                    _ -> (+)
