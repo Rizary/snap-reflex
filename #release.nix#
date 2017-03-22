@@ -14,7 +14,7 @@ let
       };
     };
     permittedInsecurePackages = [ "webkitgtk-2.4.11" ];
-  };
+  }; 
 
   pkgs = import <nixpkgs> { inherit config; } // { inherit nixpkgs; };
     

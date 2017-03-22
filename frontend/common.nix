@@ -13,6 +13,8 @@ haskellPackages.mkDerivation {
     reflex
     reflex-dom
     safe
+    text
+    containers
     
   ] ++ extraBuildInputs;
   license = null;
