@@ -1,4 +1,4 @@
-{ haskellPackages, fetchgit, extraBuildInputs ? [] }:
+{ haskellPackages, fetchgit, extraBuildInputs ? []}:
 haskellPackages.mkDerivation {
   pname = "frontend";
   version = "0.1";
@@ -15,6 +15,9 @@ haskellPackages.mkDerivation {
     safe
     text
     containers
+    cabal-macosx
+    ghcjs-dom
+
     
   ] ++ extraBuildInputs;
   license = null;

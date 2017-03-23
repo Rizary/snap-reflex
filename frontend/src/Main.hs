@@ -4,11 +4,19 @@
 import Reflex
 import Reflex.Dom
 import qualified Data.Map as Map
+import GHCJS.DOM.Types (MonadJSM,JSM,liftJSM)
 import Safe      (readMay)
 import Data.Text (pack, unpack, Text)
 import Control.Applicative ((<*>), (<$>))
+import Language.Javascript.JSaddle.WKWebView (run)
+import Control.Monad.IO.Class (MonadIO,liftIO)
+import Control.Monad (forever)
 
-main = mainWidget $ el "div" $ do
+main :: IO ()
+main = forever $ run layoutMain
+
+layoutMain :: JSM ()
+layoutMain = liftIO $ mainWidget $ el "div" $ do
   nx <- numberInput
   d <- dropdown "*" (constDyn ops) def
   ny <- numberInput

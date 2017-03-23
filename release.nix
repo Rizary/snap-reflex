@@ -1,15 +1,14 @@
-{ reflex-platform ? import ./deps/reflex-platform {} , compiler ? "ghcjs" }:
+{ reflex-platform ? import ./deps/reflex-platform {} , compiler ? "ghc"}:
 
 let
   nixpkgs = reflex-platform.nixpkgs;
-  haskellComp = reflex-platform.ghcjs;
   config = rec {
     allowUnfree = true;
     allowBroken = true;
     packageOverrides = pkgs: rec {
       haskellPackages = pkgs.haskellPackages.override {
         overrides = self: super: rec {
-	  frontend = import ./frontend {};
+	  frontend = import ./frontend { inherit reflex-platform compiler; };
 	};
       };
     };
