@@ -1,6 +1,6 @@
 { haskellPackages, fetchgit, extraBuildInputs ? [], extraPkgs ? []}:
 haskellPackages.mkDerivation {
-  pname = "frontend";
+  pname = "backend";
   version = "0.1";
   src = ./.;
   preConfigure = ''
@@ -9,15 +9,12 @@ haskellPackages.mkDerivation {
   isExecutable = true;
   isLibrary = false;
   buildDepends = with haskellPackages; [
-  
-    reflex
-    reflex-dom
-    safe
-    text
-    containers
-    cabal-macosx
-    ghcjs-dom
-    jsaddle-wkwebview
+
+    snap
+    snap-core
+    snap-server
+    heist
+    
     
   ] ++ extraBuildInputs ++ extraPkgs;
   license = null;

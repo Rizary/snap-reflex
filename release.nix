@@ -8,7 +8,8 @@ let
     packageOverrides = pkgs: rec {
       haskellPackages = pkgs.haskellPackages.override {
         overrides = self: super: rec {
-	  frontend = import ./frontend { inherit reflex-platform compiler; };
+	  frontend = import ./frontend { inherit reflex-platform compiler;};
+	  backend  = import ./backend { inherit reflex-platform compiler;};
 	};
       };
     };
@@ -19,6 +20,11 @@ let
     
   
 in
-  { frontend = pkgs.haskellPackages.frontend; }
+  {
+    frontend = pkgs.haskellPackages.frontend;
+    backend = pkgs.haskellPackages.backend;
+
+
+  }
 
   

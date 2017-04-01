@@ -1,47 +1,42 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecursiveDo       #-}
+{-# LANGUAGE OverloadedStrings, RecursiveDo, ScopedTypeVariables, FlexibleContexts, TypeFamilies, ConstraintKinds #-}
+
+import Prelude hiding (mapM, mapM_, all, sequence)
+
+import Control.Monad hiding (mapM, mapM_, forM, forM_, sequence)
+import Control.Monad.Fix
+import Data.Map (Map)
+import qualified Data.Map as Map
+import Data.Foldable
+import Data.Monoid ((<>))
+import Data.Text (Text)
+import qualified Data.Text as T
+
+import GHCJS.DOM.Types (JSM)
 
 import Reflex
-import Reflex.Dom
-import qualified Data.Map as Map
-import GHCJS.DOM.Types (MonadJSM,JSM,liftJSM)
-import Safe      (readMay)
-import Data.Text (pack, unpack, Text)
-import Control.Applicative ((<*>), (<$>))
+import Reflex.Dom.Core
+import Data.Text.Encoding (encodeUtf8)
+import Debug.Trace (trace)
 import Language.Javascript.JSaddle.WKWebView (run)
-import Control.Monad.IO.Class (MonadIO,liftIO)
-import Control.Monad (forever)
 
-main :: IO ()
-main = forever $ run layoutMain
+--------------------------------------------------------------------------------
+-- View
+--------------------------------------------------------------------------------
 
-layoutMain :: JSM ()
-layoutMain = liftIO $ mainWidget $ el "div" $ do
-  nx <- numberInput
-  d <- dropdown "*" (constDyn ops) def
-  ny <- numberInput
-  let values = zipDynWith (,) nx ny
-      result = zipDynWith (\o (x,y) -> textToOp o <$> x <*> y) (_dropdown_value d) values
-      resultText = fmap (pack . show) result
-  text " = "
-  dynText resultText
+main :: IO()
+main = run mainWk
 
-numberInput :: (MonadWidget t m) => m (Dynamic t (Maybe Double))
-numberInput = do
-  let errorState = "style" =: "border-color: red"
-      validState = "style" =: "border-color: green"
-  rec n <- textInput $ def & textInputConfig_inputType .~ "number"
-                           & textInputConfig_initialValue .~ "0"
-                           & textInputConfig_attributes .~ attrs
-      let result = fmap (readMay . unpack) $ _textInput_value n
-          attrs  = fmap (maybe errorState (const validState)) result
-  return result
+mainWk :: JSM ()
+mainWk = mainWidget $ el "div" $ text "Welcome to Reflex"
 
-ops = Map.fromList [("+", "+"), ("-", "-"), ("*", "*"), ("/", "/")]
+{-| todoMVC :: ( DomBuilder t m
+           , DomBuilderSpace m ~ GhcjsDomSpace
+           , MonadFix m
+           , MonadHold t m
+           , PostBuild t m
+           )
+        => m ()
+todoMVC = do
+  el "div" $ do -}
 
-textToOp :: (Fractional a) => Text -> a -> a -> a
-textToOp s = case s of
-                    "-" -> (-)
-                    "*" -> (*)
-                    "/" -> (/)
-                    _ -> (+)
+

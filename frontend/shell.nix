@@ -1,1 +1,1 @@
-(import ./release.nix { }).frontend.env
+(import ../release.nix { }).frontend.env
